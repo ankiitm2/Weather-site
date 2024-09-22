@@ -1,10 +1,19 @@
-import React, { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import "./weather.css";
 import Loading from "./loading/Loading";
 
-const weather = () => {
-  const [data, setData] = useState({});
-  const [location, setLoaction] = useState("");
+// Define the type for the weather data
+interface WeatherData {
+  name?: string;
+  main?: {
+    temp: number;
+    humidity: number;
+  };
+}
+
+const Weather = () => {
+  const [data, setData] = useState<WeatherData>({});
+  const [location, setLocation] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const api_key = "e3c37e16dd19deee115fcb80b830e060";
 
@@ -21,12 +30,12 @@ const weather = () => {
         console.log("error while fetching weather: ", error);
       }
       setIsLoading(false);
-      setLoaction("");
+      setLocation("");
     }
   };
 
-  const handleSearch = (e) => {
-    setLoaction(e.target.value);
+  const handleSearch = (e: { target: { value: SetStateAction<string> } }) => {
+    setLocation(e.target.value);
   };
 
   const handleLoading = () => {
@@ -48,7 +57,7 @@ const weather = () => {
           value={location}
         />
         <button className="btn" onClick={search}>
-          search
+          Search
         </button>
       </div>
 
@@ -59,8 +68,8 @@ const weather = () => {
           {data.main ? (
             <div>
               <h1>{data.name}</h1>
-              <h3>Temp: {data.main.temp}</h3>
-              <h3>Humid: {data.main.humidity}</h3>
+              <h3>Temp: {data.main.temp}°C</h3>
+              <h3>Humidity: {data.main.humidity}%</h3>
             </div>
           ) : (
             <h5>Search City</h5>
@@ -71,4 +80,4 @@ const weather = () => {
   );
 };
 
-export default weather;
+export default Weather;

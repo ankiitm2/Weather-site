@@ -1,4 +1,4 @@
-import Weather from "./Components/weather.jsx";
+import Weather from "./Components/weather";
 
 function App() {
   return (
