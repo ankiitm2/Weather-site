@@ -1,6 +1,11 @@
 import { SetStateAction, useEffect, useState } from "react";
 import "./weather.css";
 import Loading from "./loading/Loading";
+import Mist from "../assets/mist.png";
+import Clear from "../assets/mist.png"; // Example images
+import Clouds from "../assets/clouds.png";
+import Rain from "../assets/mist.png";
+import Snow from "../assets/mist.png";
 
 // Define the type for the weather data
 interface WeatherData {
@@ -24,8 +29,23 @@ const Weather = () => {
         const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${api_key}&units=metric`;
         const res = await fetch(url);
         const resultsData = await res.json();
-        console.log(resultsData);
-        setData(resultsData);
+
+        // Safely check if the weather data is present
+        if (
+          resultsData &&
+          resultsData.weather &&
+          resultsData.weather.length > 0
+        ) {
+          console.log(resultsData); // Log the data for debugging
+          setData(resultsData);
+
+          // Access weather condition safely and update the background
+          const weatherCondition = resultsData.weather[0].main;
+          console.log("Weather Condition: ", weatherCondition); // Log the weather condition
+          updateBackground(weatherCondition); // Call the function to update the background
+        } else {
+          console.log("Weather data not available.");
+        }
       } catch (error) {
         console.log("error while fetching weather: ", error);
       }
@@ -40,6 +60,39 @@ const Weather = () => {
 
   const handleLoading = () => {
     setIsLoading(false);
+  };
+
+  // Function to update the background image based on the weather condition
+  const updateBackground = (weatherCondition: string) => {
+    let imageUrl = "";
+    switch (weatherCondition) {
+      case "Mist":
+        imageUrl = Mist;
+        break;
+      case "Clear":
+        imageUrl = Clear;
+        break;
+      case "Clouds":
+        imageUrl = Clouds;
+        break;
+      case "Rain":
+        imageUrl = Rain;
+        break;
+      case "Snow":
+        imageUrl = Snow;
+        break;
+      default:
+        imageUrl = Clear; // Default image if no match
+    }
+
+    const styleTag = document.createElement("style");
+    styleTag.innerHTML = `body::before {
+      background-image: url('${imageUrl}');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }`;
+    document.head.append(styleTag);
   };
 
   useEffect(() => {
