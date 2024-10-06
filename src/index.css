@@ -27,3 +27,12 @@ body {
   background-repeat: no-repeat;
   z-index: -1;
 }
+
+/* --------------------- */
+.mb-0 {
+  margin-bottom: 0;
+}
+
+.mt-1 {
+  margin-top: 0.25rem;
+}

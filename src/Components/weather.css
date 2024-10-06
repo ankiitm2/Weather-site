@@ -35,6 +35,19 @@ body::before {
   filter: invert(1);
 }
 
+.descr {
+  margin: 0;
+  margin-top: 0.6rem;
+  text-transform: capitalize;
+  font-size: 1.3rem;
+}
+
+.descr img {
+  margin-right: 0.2rem;
+  width: 0.8rem;
+  height: 0.8rem;
+}
+
 /* From Uiverse.io by Yaseen549 */
 input {
   border: 2px solid #8707ff;

@@ -1,6 +1,8 @@
 import { SetStateAction, useEffect, useState } from "react";
 import "./weather.css";
 import Location from "../assets/svgs/solid/map-pin.svg";
+import Temp from "../assets/svgs/solid/temperature-high.svg";
+import Air from "../assets/svgs/solid/air-freshener.svg";
 import Loading from "./loading/Loading";
 import Mist from "../assets/mist.png";
 import Clear from "../assets/mist.png"; // Example images
@@ -15,6 +17,10 @@ interface WeatherData {
     temp: number;
     humidity: number;
   };
+  weather?: {
+    main: string;
+    description: string;
+  }[];
 }
 
 const Weather = () => {
@@ -103,6 +109,22 @@ const Weather = () => {
 
   return (
     <div className="weather">
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <h1>
+            <img src={Location} alt="" className="svg" />
+            {data.name ? data.name : "Search city"}
+            {data.weather && data.weather[0] && (
+              <h4 className="descr">
+                <img src={Air} className="svg" alt="" />
+                {data.weather[0].description}
+              </h4>
+            )}
+          </h1>
+        </>
+      )}
       <div className="search-box">
         <input
           type="text"
@@ -114,24 +136,13 @@ const Weather = () => {
           Search
         </button>
       </div>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <>
-          {data.main ? (
-            <div>
-              <h1>
-                <img src={Location} alt="" className="svg" />
-                {data.name ? data.name : "Search city"}
-              </h1>
-
-              <h3>Temp: {data.main.temp}°C</h3>
-              <h3>Humidity: {data.main.humidity}%</h3>
-            </div>
-          ) : (
-            <h5>Search City</h5>
-          )}
-        </>
+      {data.main && (
+        <div>
+          <h1 className="mb-0">
+            <img src={Temp} className="svg" alt="" /> {data.main.temp} °C
+          </h1>
+          <h4 className="mt-1">Humidity: {data.main.humidity} %</h4>
+        </div>
       )}
     </div>
   );
