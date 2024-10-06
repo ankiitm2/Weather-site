@@ -36,3 +36,14 @@ body {
 .mt-1 {
   margin-top: 0.25rem;
 }
+
+/* -------------------- */
+@media only screen and (max-width: 926px) {
+  .app::after {
+    right: 0;
+  }
+
+  body::before {
+    height: 105%;
+  }
+}
