@@ -1,5 +1,6 @@
 import { SetStateAction, useEffect, useState } from "react";
 import "./weather.css";
+import Location from "../assets/svgs/solid/map-pin.svg";
 import Loading from "./loading/Loading";
 import Mist from "../assets/mist.png";
 import Clear from "../assets/mist.png"; // Example images
@@ -113,14 +114,17 @@ const Weather = () => {
           Search
         </button>
       </div>
-
       {isLoading ? (
         <Loading />
       ) : (
         <>
           {data.main ? (
             <div>
-              <h1>{data.name}</h1>
+              <h1>
+                <img src={Location} alt="" className="svg" />
+                {data.name ? data.name : "Search city"}
+              </h1>
+
               <h3>Temp: {data.main.temp}°C</h3>
               <h3>Humidity: {data.main.humidity}%</h3>
             </div>
